@@ -28,12 +28,21 @@ public class ProducerQueueMain {
          *      DUPS_OK_ACKNOWLEDGE：自动批量确认
          *      SESSION_TRANSACTED：事务提交并确认
          *
+         *     如果支持事务  那么第二个参数也就没有意义
+         *     true不支持事务
+         *     false 支持事务
+         *
+         *
+         *
+         *
          * */
         Session session = connection.createSession(Boolean.FALSE, Session.CLIENT_ACKNOWLEDGE);
         Destination myQueue = session.createQueue("myQueue");
+
+
         MessageProducer producer = session.createProducer(myQueue);
-        producer.setDeliveryMode(DeliveryMode.PERSISTENT);
-        producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+        producer.setDeliveryMode(DeliveryMode.PERSISTENT);//持久化
+        producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);//非持久化
 
 
 

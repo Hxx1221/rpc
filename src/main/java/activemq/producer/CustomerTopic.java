@@ -15,11 +15,13 @@ public class CustomerTopic {
         Destination destination=session.createTopic("myQueue");
         //创建发送者
         MessageConsumer consumer=session.createConsumer(destination);
-        TextMessage textMessage = (TextMessage) consumer.receive();
-        System.out.println(textMessage.getText());
-        textMessage.acknowledge();
+        while(true) {
+            TextMessage textMessage = (TextMessage) consumer.receive();
+            System.out.println(textMessage.getText());
+            textMessage.acknowledge();
+        }
         //  session.commit();//表示消息被自动确认
-        session.close();
+        //session.close();
     }
 
 
