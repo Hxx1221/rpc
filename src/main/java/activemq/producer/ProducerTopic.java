@@ -16,7 +16,7 @@ public class ProducerTopic {
         connection.start();
         Session session = connection.createSession(Boolean.FALSE, Session.CLIENT_ACKNOWLEDGE);
 
-        Destination myQueue = session.createTopic("myQueue");
+        Destination myQueue = session.createTopic("myTest");
         MessageProducer producer = session.createProducer(myQueue);
 
         for(int i=0;i<1;i++) {
