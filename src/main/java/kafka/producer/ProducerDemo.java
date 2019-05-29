@@ -16,7 +16,7 @@ public class ProducerDemo {
         properties.setProperty("bootstrap.servers", "106.12.33.235:9092");
 
         properties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        properties.put("value.serializer","org.apache.kafka.common.serialization.StringSerializer");
+     //   properties.put("value.serializer","org.apache.kafka.common.serialization.StringSerializer");
         properties.put("acks","-1");
         properties.put("retries",1);
         properties.put("batch.size",323840);
@@ -26,19 +26,19 @@ public class ProducerDemo {
         properties.put("min.insync.replicas",3000);
 
         properties.put("partitioner.class","kafka.producer.MyPartitioner");//用自定义分区策略
-       // properties.put("value.serializer","kafka.producer.UserSerializer");//用自定义序列化
+        properties.put("value.serializer","kafka.producer.UserSerializer");//用自定义序列化
         ArrayList<String> strings = new ArrayList<String>();               //添加拦截器
-      //  strings.add("kafka.producer.interceptor.TimeStampPrependerIntcepor");
+       strings.add("kafka.producer.interceptor.TimeStampPrependerIntcepor");
         strings.add("kafka.producer.interceptor.CounterInterceptor");
-        properties.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG,strings);
+     //   properties.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG,strings);
 
-        properties.put(ProducerConfig.COMPRESSION_TYPE_CONFIG,"snappy");//使用压缩
+       // properties.put(ProducerConfig.COMPRESSION_TYPE_CONFIG,"snappy");//使用压缩
 
-      final  KafkaProducer<String, String> stringStringKafkaProducer = new KafkaProducer<String, String>(properties);
+      final  KafkaProducer<String, User> stringStringKafkaProducer = new KafkaProducer<String, User>(properties);
         for (int i = 0; i <100 ; i++) {
-           // User user = new User("h" + i, "xx" + i, i + 10, "wuhu" + i);
+            User user = new User("h" + i, "xx" + i, i + 10, "wuhu" + i);
             System.out.println("====================="+i);
-            Future<RecordMetadata> send = stringStringKafkaProducer.send(new ProducerRecord<String, String>(topic, "audit" + i, i+"11"), new Callback() {
+             stringStringKafkaProducer.send(new ProducerRecord<String, User>(topic, "audit" + i, user), new Callback() {
                 @Override
                 public void onCompletion(RecordMetadata metadata, Exception exception) {
                     System.out.println("metadata:"+metadata);
@@ -46,7 +46,8 @@ public class ProducerDemo {
                     //stringStringKafkaProducer.close(0);
                 }
             });
-            send.get();
+//            Future<RecordMetadata> send =
+//            send.get();
 
         }
         stringStringKafkaProducer.close();

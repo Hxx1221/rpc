@@ -1,12 +1,13 @@
 package kafka.producer;
 
+import com.alibaba.fastjson.JSON;
 import org.apache.kafka.common.serialization.Serializer;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
 import java.util.Map;
 //自定义序列化
-public class UserSerializer implements Serializer {
+public class UserSerializer implements Serializer<User>{
     private ObjectMapper objectMapper;
 
     @Override
@@ -15,13 +16,13 @@ public class UserSerializer implements Serializer {
     }
 
     @Override
-    public byte[] serialize(String topic, Object data) {
+    public byte[] serialize(String topic, User data) {
         byte[] ret = null;
 
         try {
-            ret = objectMapper.writeValueAsString(data).getBytes("UTF-8");
-        } catch (IOException e) {
-
+            ret= JSON.toJSONBytes(data);
+          //  ret = objectMapper.writeValueAsString(data).getBytes("utf-8");
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
