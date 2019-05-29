@@ -25,7 +25,9 @@ public class MyPartitioner implements Partitioner {
 
         int size = partitionInfos.size();
         int auditPartition = size - 1;
-
+        if (size == 1) {
+            return 0;
+        }
         return keyObj == null || keyObj.isEmpty() || !keyObj.contains("audit") ? random.nextInt(size - 1) : auditPartition;
     }
 
