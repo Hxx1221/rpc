@@ -12,14 +12,15 @@ public class ConsumerDemo {
 
     public static void main(String[] args) {
 
-        String topicName = "test-topic-string";
 
-        String groupId = "test-group-s";
+        String topicName = "test-thread";
+
+        String groupId = "test-group1";
 
         Properties properties = new Properties();
         properties.put("bootstrap.servers", "106.12.33.235:9092");
         properties.put("group.id", groupId);
-        properties.put("enable.auto.commit", "false");
+        properties.put("enable.auto.commit", "true");
         properties.put("auto.commit.interval.ms", "100000");
         properties.put("auto.offset.reset", "earliest");//从到到位的消费和--from-beginning
         properties.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");

@@ -19,6 +19,7 @@ public class MyPartitioner implements Partitioner {
      */
     @Override
     public int partition(String topic, Object key, byte[] keyBytes, Object value, byte[] valueBytes, Cluster cluster) {
+        System.out.println("MyPartitioner");
 
         String keyObj = (String) key;
         List<PartitionInfo> partitionInfos = cluster.availablePartitionsForTopic(topic);
@@ -38,7 +39,7 @@ public class MyPartitioner implements Partitioner {
 
     @Override
     public void configure(Map<String, ?> configs) {
-        System.out.println("configure");
+        System.out.println("MyPartitioner configure");
 
         random = new Random();
     }

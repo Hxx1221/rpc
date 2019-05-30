@@ -24,6 +24,7 @@ public class CounterInterceptor implements ProducerInterceptor<String, User> {
         }else{
             errorCounter++;
         }
+        System.out.println("CounterInterceptor ===onAcknowledgement");
     }
 
     @Override
