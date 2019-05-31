@@ -13,16 +13,16 @@ public class ConsumerDemo {
     public static void main(String[] args) {
 
 
-        String topicName = "test-thread";
+        String topicName = "topic-hxx";
 
-        String groupId = "test-group1";
+        String groupId = "test-groups";
 
         Properties properties = new Properties();
-        properties.put("bootstrap.servers", "106.12.33.235:9092");
+        properties.put("bootstrap.servers", "106.12.29.156:9092,106.12.33.235:9092,106.12.14.189:9092");
         properties.put("group.id", groupId);
         properties.put("enable.auto.commit", "true");
-        properties.put("auto.commit.interval.ms", "100000");
-        properties.put("auto.offset.reset", "earliest");//从到到位的消费和--from-beginning
+        properties.put("auto.commit.interval.ms", "1000");
+        properties.put("auto.offset.reset", "latest");//从到到位的消费和--from-beginning
         properties.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
        // properties.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         properties.put("max.poll.records", 20);
@@ -30,7 +30,7 @@ public class ConsumerDemo {
         KafkaConsumer<String, User> objectObjectKafkaConsumer = new KafkaConsumer<String, User>(properties);
         objectObjectKafkaConsumer.subscribe(Arrays.asList(topicName));
 
-        final List<ConsumerRecord<String, String>> arrayList = new ArrayList();
+        final List<ConsumerRecord<String, User>> arrayList = new ArrayList();
 
         try {
             while (true) {
@@ -39,39 +39,39 @@ public class ConsumerDemo {
                  * 而这个时间就是控制阻塞的时间
                  *
                  * */
-                ConsumerRecords<String, User> polls = objectObjectKafkaConsumer.poll(100000);
+                ConsumerRecords<String, User> polls = objectObjectKafkaConsumer.poll(1000);
 
-                for (TopicPartition topicPartition : polls.partitions()) {
+//                for (TopicPartition topicPartition : polls.partitions()) {
+//
+//                    final List<ConsumerRecord<String, User>> records = polls.records(topicPartition);
+//
+//                    for (ConsumerRecord<String, User> record : records) {
+//
+//                        System.out.printf("offset = %d, key = %s , value = %s%n", record.offset(), record.key(), record.value());
+//                    }
+//
+//                    final long offset = records.get(records.size() - 1).offset();
+//
+//                    objectObjectKafkaConsumer.commitSync(Collections.singletonMap(topicPartition, new OffsetAndMetadata(offset + 1)));
+//                    System.out.printf("topic ="+topicPartition.topic()+" partition = "+ topicPartition.partition());
+//
+//                    System.out.println("=====");
+//
+//                }
 
-                    final List<ConsumerRecord<String, User>> records = polls.records(topicPartition);
 
-                    for (ConsumerRecord<String, User> record : records) {
-
-                        System.out.printf("offset = %d, key = %s , value = %s%n", record.offset(), record.key(), record.value());
-                    }
-
-                    final long offset = records.get(records.size() - 1).offset();
-
-                    objectObjectKafkaConsumer.commitSync(Collections.singletonMap(topicPartition, new OffsetAndMetadata(offset + 1)));
-                    System.out.printf("topic ="+topicPartition.topic()+" partition = "+ topicPartition.partition());
-
-                    System.out.println("=====");
-
+                for (ConsumerRecord<String, User> poll : polls) {
+                    System.out.printf("offset = %d, key = %s , value = %s%n", poll.offset(), poll.key(), poll.value());
+                    arrayList.add(poll);
                 }
 
-
-//                for (ConsumerRecord<String, String> poll : polls) {
-//                    System.out.printf("offset = %d, key = %s , value = %s%n", poll.offset(), poll.key(), poll.value());
-//                    arrayList.add(poll);
-//                }
-//
-//                if (arrayList.size()>99){
-//                    System.out.println("arrayList===:"+arrayList.size());
-//                    objectObjectKafkaConsumer.commitAsync();//异步
-//                   // objectObjectKafkaConsumer.commitSync();//同步
-//                    arrayList.clear();
-//                }
-//                System.out.println("=====");
+                if (arrayList.size()>99){
+                    System.out.println("arrayList===:"+arrayList.size());
+                    //objectObjectKafkaConsumer.commitAsync();//异步
+                    objectObjectKafkaConsumer.commitSync();//同步
+                    arrayList.clear();
+                }
+       //         System.out.println("=====");
             }
         } finally {
             objectObjectKafkaConsumer.close();

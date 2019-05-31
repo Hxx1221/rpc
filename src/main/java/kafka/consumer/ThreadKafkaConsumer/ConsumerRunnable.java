@@ -17,7 +17,7 @@ public class ConsumerRunnable implements Runnable {
         Properties properties = new Properties();
         properties.put("bootstrap.servers", brokerList);
         properties.put("group.id", groupId);
-        properties.put("enable.auto.commit", "false");
+        properties.put("enable.auto.commit", "true");
         properties.put("auto.commit.interval.ms", "100000");
         properties.put("auto.offset.reset", "earliest");//从到到位的消费和--from-beginning
         properties.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
@@ -32,9 +32,9 @@ public class ConsumerRunnable implements Runnable {
     @Override
     public void run() {
         while (true) {
-            ConsumerRecords<String, User> polls = consumers.poll(1000);
+            ConsumerRecords<String, User> polls = consumers.poll(10);
             for (ConsumerRecord<String, User> poll : polls) {
-                System.out.println(Thread.currentThread().getName() + " consumed: " + poll.partition() + " offset: " + poll.offset());
+                System.out.println(Thread.currentThread().getName() + " consumed: " + poll.partition() + " offset: " + poll.offset()+" value: "+poll.value());
 
             }
 
