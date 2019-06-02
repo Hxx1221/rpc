@@ -26,7 +26,7 @@ public class ConsumerThreadHandler {
         properties.put("group.id", groupId);
         properties.put("enable.auto.commit", "true");
         properties.put("auto.commit.interval.ms", "100000");
-        properties.put("auto.offset.reset", "earliest");//从到到位的消费和--from-beginning
+        properties.put("auto.offset.reset", "earliest");//?????λ???????--from-beginning
         properties.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         // properties.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         properties.put("max.poll.records", 20);
@@ -46,7 +46,7 @@ public class ConsumerThreadHandler {
     }
 
     /**
-     * 创建多线程调用同意消费者实例对象消费消息
+     * ???????????????????????????????????
      */
     public void consume(int threadNumber) {
         executorServices = new ThreadPoolExecutor(threadNumber, threadNumber, 0L,
