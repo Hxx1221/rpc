@@ -1,10 +1,9 @@
 package Thread;
 
-import org.apache.zookeeper.ZooKeeper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Author:He_xixiang
@@ -22,11 +21,8 @@ public class Test {
             public void run() {
                 int a=0;
                while (true){
-
                    System.out.println(a++);
                }
-
-
             }
         });
         thread.setPriority(10);
