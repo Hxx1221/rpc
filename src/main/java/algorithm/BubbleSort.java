@@ -2,7 +2,7 @@ package algorithm;
 
 public class BubbleSort {
     public static void main(String[] args) {
-        //冒泡排序
+        //冒泡排序  O(n^2)
         int[] arr = {2, 8, -1, 7, 23, 78, 45, 32};
 
         System.out.println("排序前数组为：");
