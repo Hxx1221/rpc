@@ -1,5 +1,8 @@
 package algorithm;
 
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
 public class BubbleSort {
     public static void main(String[] args) {
         //冒泡排序  O(n^2)
@@ -21,7 +24,7 @@ public class BubbleSort {
             }
         }
 
-
+new ReentrantLock();
         for (int a : arr) {
             System.out.println(a);
         }
